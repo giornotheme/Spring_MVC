@@ -1,6 +1,8 @@
 package com.webapplication.watchlist.Controller;
 
 import com.webapplication.watchlist.Beans.WatchlistItem;
+import com.webapplication.watchlist.Exception.DuplicateTitleException;
+import com.webapplication.watchlist.Service.WatchlistService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,24 +13,19 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
 public class WatchListController {
 
-    private List<WatchlistItem> watchlistItems = new ArrayList<WatchlistItem>();
-    private static int index = 1;
+    private WatchlistService watchlistService = new WatchlistService();
 
     @GetMapping("/watchlist")
     public String getWatchList(Model model) {
 
-        //watchlistItems.clear();
-
-        model.addAttribute("watchlistItems", watchlistItems);
-        model.addAttribute("numberOfMovies", watchlistItems.size());
+        model.addAttribute("watchlistItems", watchlistService.getWatchlistItems());
+        model.addAttribute("numberOfMovies", watchlistService.getWatchlistItemsSize());
 
         return "watchlist";
     }
@@ -38,7 +35,7 @@ public class WatchListController {
         String viewName = "watchlistItemForm";
         Map<String, Object> model = new HashMap<String, Object>();
 
-        WatchlistItem watchlistItem = findWatchlistItemByID(id);
+        WatchlistItem watchlistItem = watchlistService.findWatchlistItemById(id);
 
         if (watchlistItem == null) {
             model.put("watchlistItem", new WatchlistItem());
@@ -55,32 +52,17 @@ public class WatchListController {
         if (bindingResult.hasErrors()){
             return new ModelAndView("watchlistItemForm");
         }
-        WatchlistItem existingItem = findWatchlistItemByID(watchlistItem.getId());
 
-        if (existingItem == null) {
-            watchlistItem.setId(index++);
-            watchlistItems.add(watchlistItem);
+        try {
+            watchlistService.addOrUpdateWatchlistItem(watchlistItem);
+        } catch (DuplicateTitleException e) {
+            bindingResult.rejectValue("title", "", "Title already existing");
+            return new ModelAndView("watchlistItemForm");
         }
-        else{
-            existingItem.setComment(watchlistItem.getComment());
-            existingItem.setPriority(watchlistItem.getPriority());
-            existingItem.setRating(watchlistItem.getRating());
-            existingItem.setTitle(watchlistItem.getTitle());
-        }
+
         RedirectView redirectView = new RedirectView();
         redirectView.setUrl("/watchlist");
 
         return new ModelAndView(redirectView);
     }
-
-    //Methodes pour les vues
-    private WatchlistItem findWatchlistItemByID(Integer id) {
-        for (WatchlistItem watchlistItem : watchlistItems) {
-            if (watchlistItem.getId().equals(id)) {
-                return watchlistItem;
-            }
-        }
-        return null;
-    }
-
 }
