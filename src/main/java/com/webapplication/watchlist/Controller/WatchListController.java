@@ -26,10 +26,6 @@ public class WatchListController {
     public String getWatchList(Model model) {
 
         //watchlistItems.clear();
-        watchlistItems.add(new WatchlistItem("Clannad", "10", "high", "super", index++));
-        watchlistItems.add(new WatchlistItem("mes couilles", "10", "high", "sur ton front", index++));
-        watchlistItems.add(new WatchlistItem("mes couilles au bord de l'eau", "10", "high", "ça fait un radeau", index++));
-        watchlistItems.add(new WatchlistItem("SNK", "10", "low", "les titans sont dans les murs", index++));
 
         model.addAttribute("watchlistItems", watchlistItems);
         model.addAttribute("numberOfMovies", watchlistItems.size());
