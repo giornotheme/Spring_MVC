@@ -1,6 +1,6 @@
 package com.webapplication.watchlist.Controller;
 
-import com.webapplication.watchlist.WatchlistItem;
+import com.webapplication.watchlist.Beans.WatchlistItem;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

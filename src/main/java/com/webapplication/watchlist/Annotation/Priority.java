@@ -1,4 +1,4 @@
-package com.webapplication.watchlist;
+package com.webapplication.watchlist.Annotation;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

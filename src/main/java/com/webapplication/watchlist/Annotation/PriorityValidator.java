@@ -1,4 +1,6 @@
-package com.webapplication.watchlist;
+package com.webapplication.watchlist.Annotation;
+
+import com.webapplication.watchlist.Annotation.Priority;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

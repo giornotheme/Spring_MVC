@@ -1,4 +1,6 @@
-package com.webapplication.watchlist;
+package com.webapplication.watchlist.Beans;
+
+import com.webapplication.watchlist.Annotation.Priority;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
