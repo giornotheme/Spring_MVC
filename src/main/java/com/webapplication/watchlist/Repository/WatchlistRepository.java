@@ -1,10 +1,12 @@
 package com.webapplication.watchlist.Repository;
 
 import com.webapplication.watchlist.Beans.WatchlistItem;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class WatchlistRepository {
     private List<WatchlistItem> watchlistItems = new ArrayList<WatchlistItem>();
     private static int index = 1;

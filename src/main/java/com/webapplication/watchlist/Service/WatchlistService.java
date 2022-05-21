@@ -3,13 +3,21 @@ package com.webapplication.watchlist.Service;
 import com.webapplication.watchlist.Beans.WatchlistItem;
 import com.webapplication.watchlist.Exception.DuplicateTitleException;
 import com.webapplication.watchlist.Repository.WatchlistRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
-
+@Service
 public class WatchlistService {
-    WatchlistRepository watchlistRepository = new WatchlistRepository();
-    MovieRatingWithApiService movieRatingWithApiService = new MovieRatingWithApiService();
+    WatchlistRepository watchlistRepository;
+    MovieRatingWithApiService movieRatingWithApiService;
+
+    @Autowired
+    public WatchlistService(WatchlistRepository watchlistRepository, MovieRatingWithApiService movieRatingWithApiService) {
+        this.watchlistRepository = watchlistRepository;
+        this.movieRatingWithApiService = movieRatingWithApiService;
+    }
 
     public List<WatchlistItem> getWatchlistItems(){
         List<WatchlistItem> watchlistItems = watchlistRepository.getWatchlistItems();

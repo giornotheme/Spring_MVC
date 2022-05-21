@@ -3,6 +3,7 @@ package com.webapplication.watchlist.Controller;
 import com.webapplication.watchlist.Beans.WatchlistItem;
 import com.webapplication.watchlist.Exception.DuplicateTitleException;
 import com.webapplication.watchlist.Service.WatchlistService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,7 +20,12 @@ import java.util.Map;
 @Controller
 public class WatchListController {
 
-    private WatchlistService watchlistService = new WatchlistService();
+    private WatchlistService watchlistService;
+
+    @Autowired
+    public WatchListController(WatchlistService watchlistService) {
+        this.watchlistService = watchlistService;
+    }
 
     @GetMapping("/watchlist")
     public String getWatchList(Model model) {

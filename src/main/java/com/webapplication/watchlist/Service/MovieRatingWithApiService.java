@@ -2,8 +2,10 @@ package com.webapplication.watchlist.Service;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+@Service
 public class MovieRatingWithApiService {
 
     String apiUrl = "http://www.omdbapi.com/?apikey=5889e042&t=";
