@@ -9,9 +9,21 @@ import java.util.List;
 
 public class WatchlistService {
     WatchlistRepository watchlistRepository = new WatchlistRepository();
+    MovieRatingWithApiService movieRatingWithApiService = new MovieRatingWithApiService();
 
     public List<WatchlistItem> getWatchlistItems(){
-        return watchlistRepository.getWatchlistItems();
+        List<WatchlistItem> watchlistItems = watchlistRepository.getWatchlistItems();
+        for(WatchlistItem watchlistItem : watchlistItems){
+            String rating = movieRatingWithApiService.getMovieRating(watchlistItem.getTitle());
+            if(rating!=null){
+                watchlistItem.setRating(rating);
+            }
+            else{
+                //TODO if rating from api is null, must display rating from the form
+                return watchlistRepository.getWatchlistItems();
+            }
+        }
+        return watchlistItems;
     }
 
     public int getWatchlistItemsSize(){
@@ -25,6 +37,7 @@ public class WatchlistService {
     public void addOrUpdateWatchlistItem(WatchlistItem watchlistItem) throws DuplicateTitleException {
         WatchlistItem existingItem = findWatchlistItemById(watchlistItem.getId());
 
+        //TODO if title already exist, then update the existing one instead of throwing an error
         if (existingItem == null) {
             if(watchlistRepository.findWatchlistItemByTitle(watchlistItem.getTitle()) != null){
                 throw new DuplicateTitleException();
